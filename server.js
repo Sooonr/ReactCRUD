@@ -35,30 +35,43 @@ app.listen(port, function() {
  console.log(`api running on port ${port}`);
 });
 
+router.route('/quote/:id')
+ //retrieve a quote from the database by id
+ .get(function(req, res) {
+     const id = req.originalUrl.split('/')[3];
+     //looks at our Quote Schema
+     Quote.findById(id, function(err, quotes) {
+       if (err)
+         res.send(err);
+         //responds with a json object of our database quotes.
+         res.json(quotes)
+    });
+ });
+
 router.route('/quotes')
  //retrieve all quotes from the database
  .get(function(req, res) {
- //looks at our Quote Schema
- Quote.find(function(err, quotes) {
- if (err)
-   res.send(err);
-   //responds with a json object of our database quotes.
-   res.json(quotes)
-   });
+     //looks at our Quote Schema
+     Quote.find(function(err, quotes) {
+     if (err)
+       res.send(err);
+       //responds with a json object of our database quotes.
+       res.json(quotes)
+    });
  })
  //post new quote to the database
  .post(function(req, res) {
- var quote = new Quote();
- //body parser lets us use the req.body
- quote.name = req.body.name;
- quote.quote = req.body.quote;
- if (quote.name && quote.quote) {
-    quote.save(function(err) {
-       if (err)
-         res.send(err);
-         res.json({ message: 'Quote successfully added!' });
-    });
- } else {
-   res.json({ error: true, message: 'Missing parameters' });
- }
+     var quote = new Quote();
+     //body parser lets us use the req.body
+     quote.name = req.body.name;
+     quote.quote = req.body.quote;
+     if (quote.name && quote.quote) {
+        quote.save(function(err) {
+           if (err)
+             res.send(err);
+             res.json({ message: 'Quote successfully added!' });
+        });
+     } else {
+       res.json({ error: true, message: 'Missing parameters' });
+     }
  });
