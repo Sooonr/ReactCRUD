@@ -52,9 +52,13 @@ router.route('/quotes')
  //body parser lets us use the req.body
  quote.name = req.body.name;
  quote.quote = req.body.quote;
-quote.save(function(err) {
- if (err)
-   res.send(err);
-   res.json({ message: 'Quote successfully added!' });
-   });
+ if (quote.name && quote.quote) {
+    quote.save(function(err) {
+       if (err)
+         res.send(err);
+         res.json({ message: 'Quote successfully added!' });
+    });
+ } else {
+   res.json({ error: true, message: 'Missing parameters' });
+ }
  });
