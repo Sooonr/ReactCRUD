@@ -25,14 +25,13 @@ class UpdateQuote extends Component {
    }
 
    updateContent = ({ target: {value, name} }) => {
-   	   const { data } = this.state;
        if (name === 'name') {
          this.setState({
-           data: { name: value, quote: data.quote }
+           quoteName: value
          });
        } else if (name === 'quote') {
          this.setState({
-           data: { name: data.name, quote: value }
+           quoteContent: value
          });
        }
     }
@@ -40,10 +39,10 @@ class UpdateQuote extends Component {
     updateQuoteOnServer = (e) => {
      e.preventDefault();
      const idQuote = this.props.location.pathname.split('/')[3]
-     const {data} = this.state;
+     const {quoteName, quoteContent} = this.state;
      axios.post('http://localhost:3001/api/quote/update/' + idQuote, {
-       name: data.name,
-       quote: data.quote,
+       name: quoteName,
+       quote: quoteContent,
      })
      .then(res => {
        if (res.data.error) {
@@ -51,6 +50,8 @@ class UpdateQuote extends Component {
        } else {
          this.setState({
            data: res.data,
+           quoteName: '',
+           quoteContent: '',
            loading: false,
            redirect: true,
          });
@@ -61,16 +62,15 @@ class UpdateQuote extends Component {
   render() {
 
     const { data, redirect } = this.state;
-    const idQuote = this.props.location.pathname.split('/')[3]
 
-    if (redirect) return <Redirect to={`/quote/${idQuote}`} />;
+    if (redirect) return <Redirect to='/'/>;
 
     return (
       <div className={css(styles.container)}>
         <form className={css(styles.form)} onSubmit={this.updateQuoteOnServer} >
-          <input value={data.name} type="text" name="name" onChange={this.updateContent}></input>
-          <input value={data.quote} type="text" name="quote" onChange={this.updateContent}></input>
-          <button type="submit">Valider</button>
+          <input className={css(styles.input)} placeholder={data.name} type="text" name="name" onChange={this.updateContent}></input>
+          <input className={css(styles.input)} placeholder={data.quote} type="text" name="quote" onChange={this.updateContent}></input>
+          <button className={css(styles.button)} type="submit">Valider</button>
           {data.message &&
             <div>{data.message}</div>
           }
@@ -91,6 +91,15 @@ const styles = StyleSheet.create({
       display: 'flex',
       flexDirection: 'column',
       width: 500,
+    },
+    input: {
+      margin: 10,
+      padding: 5
+    },
+    button: {
+      margin: '10px auto',
+      width: 150,
+      cursor: 'pointer'
     },
 });
 export default UpdateQuote;

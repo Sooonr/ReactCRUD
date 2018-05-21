@@ -57,9 +57,9 @@ class Quote extends Component {
     return (
       <div className={css(styles.container)}>
         <form className={css(styles.form)} onSubmit={this.addQuoteOnServer} >
-          <input value={quoteName} type="text" name="name" placeholder="Nom de la quote" onChange={this.updateContent}></input>
-          <input value={quoteContent} type="text" name="quote" placeholder="Contenu de la quote" onChange={this.updateContent}></input>
-          <button type="submit">Valider</button>
+          <input className={css(styles.input)} value={quoteName} type="text" name="name" placeholder="Quote name" onChange={this.updateContent}></input>
+          <input className={css(styles.input)} value={quoteContent} type="text" name="quote" placeholder="Quote content" onChange={this.updateContent}></input>
+          <button className={css(styles.button)} type="submit">Send</button>
           {data.message &&
             <div>{data.message}</div>
           }
@@ -80,6 +80,15 @@ const styles = StyleSheet.create({
       display: 'flex',
       flexDirection: 'column',
       width: 500,
+    },
+    input: {
+      margin: 10,
+      padding: 5
+    },
+    button: {
+      margin: '10px auto',
+      width: 150,
+      cursor: 'pointer'
     },
 });
 
