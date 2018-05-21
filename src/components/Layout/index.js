@@ -15,7 +15,9 @@ class Layout extends Component {
       <div className={css(styles.app)}>
         <header className={css(styles.appHeader)}>
           <div className={css(styles.smallHeader)}>
-            <span><a href="https://github.com/ValentinKajdan/ReactCRUD" target="_blank">Github</a></span>
+            <a className={css(styles.smallHeaderLink)} href="https://github.com/ValentinKajdan/ReactCRUD" target="_blank">
+              <img className={css(styles.smallHeaderImg)} src="/img/github.png" width="20"/> ReactCRUD - Join us to build the most powerfull CRUD based on React !
+            </a>
           </div>
           <h1 className={css(styles.appTitle)}>Welcome to ReactCRUD</h1>
           <nav className={css(styles.nav)}>
@@ -42,9 +44,23 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       marginBottom: 10,
       padding: '0 20px',
-      height: 40,
+      height: 35,
       width: '100%',
-      backgroundColor: '#000',
+      backgroundColor: '#fff',
+    },
+    smallHeaderLink: {
+      display: 'flex',
+      alignItems: 'center',
+      color: '#000',
+      fontSize: 12,
+      textDecoration: 'none',
+      opacity: '0.7',
+      ':hover': {
+        opacity: '1',
+      }
+    },
+    smallHeaderImg: {
+      marginRight: 10,
     },
     appHeader: {
       display: 'flex',
