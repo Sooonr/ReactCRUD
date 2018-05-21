@@ -25,13 +25,14 @@ class UpdateQuote extends Component {
    }
 
    updateContent = ({ target: {value, name} }) => {
+   	   const { data } = this.state;
        if (name === 'name') {
          this.setState({
-           quoteName: value
+           data: { name: value, quote: data.quote }
          });
        } else if (name === 'quote') {
          this.setState({
-           quoteContent: value
+           data: { name: data.name, quote: value }
          });
        }
     }
@@ -39,10 +40,10 @@ class UpdateQuote extends Component {
     updateQuoteOnServer = (e) => {
      e.preventDefault();
      const idQuote = this.props.location.pathname.split('/')[3]
-     const {quoteName, quoteContent} = this.state;
+     const {data} = this.state;
      axios.post('http://localhost:3001/api/quote/update/' + idQuote, {
-       name: quoteName,
-       quote: quoteContent,
+       name: data.name,
+       quote: data.quote,
      })
      .then(res => {
        if (res.data.error) {
@@ -68,8 +69,8 @@ class UpdateQuote extends Component {
     return (
       <div className={css(styles.container)}>
         <form className={css(styles.form)} onSubmit={this.updateQuoteOnServer} >
-          <input placeholder={data.name} type="text" name="name" onChange={this.updateContent}></input>
-          <input placeholder={data.quote} type="text" name="quote" onChange={this.updateContent}></input>
+          <input value={data.name} type="text" name="name" onChange={this.updateContent}></input>
+          <input value={data.quote} type="text" name="quote" onChange={this.updateContent}></input>
           <button type="submit">Valider</button>
           {data.message &&
             <div>{data.message}</div>
