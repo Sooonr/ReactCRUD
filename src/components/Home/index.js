@@ -34,7 +34,7 @@ class Home extends Component {
           <ul className={css(styles.list)}>
         {
           this.state.data.map((quote, key) =>
-            <li key={key} className={css(styles.listItem)}><Link to={`/delete/${quote._id}`}>{quote.name} : {quote.quote}</Link></li>
+            <li key={key} className={css(styles.listItem)}><Link to={`/quote/${quote._id}`}>{quote.name} : {quote.quote}</Link></li>
           )
         }
       </ul>
