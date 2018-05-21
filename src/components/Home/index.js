@@ -48,7 +48,8 @@ class Home extends Component {
 const styles = StyleSheet.create({
     table: {
       textAlign: 'center',
-      width: 840,
+      maxWidth: 840,
+      width: '100%',
       margin: '25px auto',
       border: '1px solid #000',
       borderCollapse: 'collapse',
