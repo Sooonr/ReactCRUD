@@ -38,8 +38,8 @@ class ShowQuote extends Component {
     return (
       <div className={css(styles.container)}>
         <div>{data.name} : {data.quote}</div>
-        <button onClick={this.delete.bind(this, data._id)} class="btn btn-danger">Delete</button>
-        <Link to={`/quote/update/${data._id}`}>Modifier</Link>
+        <button className={css(styles.button)} onClick={this.delete.bind(this, data._id)}>Delete</button>
+        <Link className={css(styles.link)} to={`/quote/update/${data._id}`}>Edit</Link>
       </div>
     );
   }
@@ -53,7 +53,19 @@ const styles = StyleSheet.create({
       flexDirection: 'column',
       justifyContent: 'center',
     },
+    button: {
+      margin: '10px auto',
+      width: 150,
+      cursor: 'pointer'
+    },
+    link: {
+      color: '#000',
+      textDecoration: 'none',
+      opacity: '0.7',
+      ':hover': {
+        opacity: 1,
+      }
+    }
 });
 
 export default ShowQuote;
-
