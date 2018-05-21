@@ -21,6 +21,9 @@ class Home extends Component {
        this.loadQuotesFromServer();
      }
 
+     
+    
+
   render() {
     return (
       <table className={css(styles.table)}>
