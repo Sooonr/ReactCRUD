@@ -16,7 +16,7 @@ class Layout extends Component {
         <header className={css(styles.appHeader)}>
           <div className={css(styles.smallHeader)}>
             <a className={css(styles.smallHeaderLink)} href="https://github.com/ValentinKajdan/ReactCRUD" target="_blank">
-              <img className={css(styles.smallHeaderImg)} src="/img/github.png" width="20"/> ReactCRUD - Join us to build the most powerfull CRUD based on React !
+              <img className={css(styles.smallHeaderImg)} src="/img/github.png" width="20"/> ReactCRUD - Join us to build the most powerfull CRUD based on ReactJS !
             </a>
           </div>
           <h1 className={css(styles.appTitle)}>Welcome to ReactCRUD</h1>
