@@ -30,6 +30,7 @@ class ShowQuote extends Component {
       });
   }
 
+
   render() {
 
     const { data } = this.state;
@@ -37,6 +38,7 @@ class ShowQuote extends Component {
     return (
       <div className={css(styles.container)}>
         <div>{data.name} : {data.quote}</div>
+
         <button onClick={this.delete.bind(this, data._id)} class="btn btn-danger">Delete</button>
         <Link to="/">Modifier</Link>
       </div>
@@ -55,3 +57,4 @@ const styles = StyleSheet.create({
 });
 
 export default ShowQuote;
+
