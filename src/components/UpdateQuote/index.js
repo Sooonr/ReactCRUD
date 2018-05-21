@@ -61,8 +61,9 @@ class UpdateQuote extends Component {
   render() {
 
     const { data, redirect } = this.state;
+    const idQuote = this.props.location.pathname.split('/')[3]
 
-    if (redirect) return <Redirect to='/'/>;
+    if (redirect) return <Redirect to={`/quote/${idQuote}`} />;
 
     return (
       <div className={css(styles.container)}>
