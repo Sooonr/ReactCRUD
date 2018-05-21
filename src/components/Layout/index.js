@@ -7,6 +7,7 @@ import Home from '../Home';
 import Quote from '../Quote';
 import ShowQuote from '../ShowQuote';
 
+
 class Layout extends Component {
 
   render() {

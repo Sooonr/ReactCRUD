@@ -22,6 +22,15 @@ class ShowQuote extends Component {
      })
    }
 
+   delete(id){
+    console.log(id);
+    axios.delete('http://localhost:3001/api/quotes/?_id='+id)
+      .then((result) => {
+        this.props.history.push("/")
+      });
+  }
+
+
   render() {
 
     const { data } = this.state;
@@ -29,7 +38,8 @@ class ShowQuote extends Component {
     return (
       <div className={css(styles.container)}>
         <div>{data.name} : {data.quote}</div>
-        <Link to="/">Supprimer</Link>
+
+        <button onClick={this.delete.bind(this, data._id)} class="btn btn-danger">Delete</button>
         <Link to="/">Modifier</Link>
       </div>
     );
@@ -47,3 +57,4 @@ const styles = StyleSheet.create({
 });
 
 export default ShowQuote;
+
