@@ -21,13 +21,7 @@ class Home extends Component {
        this.loadQuotesFromServer();
      }
 
-     delete(id){
-      console.log(id);
-      axios.delete('http://localhost:3001/api/quotes/?_id='+id)
-        .then((result) => {
-          this.props.history.push("/")
-        });
-    }
+    
 
   render() {
     return (
