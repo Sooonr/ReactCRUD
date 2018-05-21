@@ -38,9 +38,8 @@ class ShowQuote extends Component {
     return (
       <div className={css(styles.container)}>
         <div>{data.name} : {data.quote}</div>
-
         <button onClick={this.delete.bind(this, data._id)} class="btn btn-danger">Delete</button>
-        <Link to="/">Modifier</Link>
+        <Link to={`/quote/update/${data._id}`}>Modifier</Link>
       </div>
     );
   }
