@@ -37,17 +37,6 @@ app.listen(port, function() {
 
 router.route('/quote/update/:id')
  //retrieve a quote from the database by id
- .get(function(req, res) {
-     const id = req.originalUrl.split('/')[3];
-     //looks at our Quote Schema
-     Quote.findById(id, function(err, quotes) {
-       if (err)
-         res.send(err);
-         //responds with a json object of our database quotes.
-         res.json(quotes)
-    });
- })
-
  .post(function(req, res) {
      const id = req.originalUrl.split('/')[4];
      //body parser lets us use the req.body
