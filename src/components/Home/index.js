@@ -21,9 +21,12 @@ class Home extends Component {
        this.loadQuotesFromServer();
      }
 
+     
+    
+
   render() {
     return (
-      <ul className={css(styles.list)}>
+          <ul className={css(styles.list)}>
         {
           this.state.data.map((quote, key) =>
             <li key={key} className={css(styles.listItem)}><Link to={`/quote/${quote._id}`}>{quote.name} : {quote.quote}</Link></li>

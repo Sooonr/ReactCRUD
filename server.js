@@ -53,7 +53,21 @@ router.route('/quote/update/:id')
      });
  });
 
-router.route('/quote/:id')
+router.delete('/:id',function(req, res) {
+     const reqId = req.originalUrl.split('/')[3];
+     const id = reqId.split('=')[1];
+     var ObjectId = require('mongodb').ObjectID;
+     
+     console.log(id);
+     Quote.deleteOne({ "_id" : ObjectId(id) }, function(err, quotes) {
+       if (err)
+         res.send(err);
+         //responds with a json object of our database quotes.
+         res.json(quotes)
+    });
+ });
+
+ router.route('/quote/:id')
  //retrieve a quote from the database by id
  .get(function(req, res) {
      const id = req.originalUrl.split('/')[3];
@@ -93,3 +107,7 @@ router.route('/quotes')
        res.json({ error: true, message: 'Missing parameters' });
      }
  });
+
+ 
+
+ 

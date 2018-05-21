@@ -8,6 +8,7 @@ import Quote from '../Quote';
 import ShowQuote from '../ShowQuote';
 import UpdateQuote from '../UpdateQuote';
 
+
 class Layout extends Component {
 
   render() {
