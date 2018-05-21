@@ -30,7 +30,7 @@ class ShowQuote extends Component {
       <div className={css(styles.container)}>
         <div>{data.name} : {data.quote}</div>
         <Link to="/">Supprimer</Link>
-        <Link to="/">Modifier</Link>
+        <Link to={`/quote/update/${data._id}`}>Modifier</Link>
       </div>
     );
   }

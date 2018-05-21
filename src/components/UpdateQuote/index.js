@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
 class UpdateQuote extends Component {
 
   state = {
     data: {},
     loading: true,
+    redirect: false
    };
 
   componentDidMount = () => {
@@ -59,7 +61,9 @@ class UpdateQuote extends Component {
 
   render() {
 
-    const { data } = this.state;
+    const { data, redirect } = this.state;
+
+    if (redirect) return <Redirect to='/'/>;
 
     return (
       <div className={css(styles.container)}>
