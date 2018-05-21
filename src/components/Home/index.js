@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, css } from 'aphrodite';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 class Home extends Component {
@@ -20,12 +21,20 @@ class Home extends Component {
        this.loadQuotesFromServer();
      }
 
+     delete(id){
+      console.log(id);
+      axios.delete('http://localhost:3001/api/quotes/?_id='+id)
+        .then((result) => {
+          this.props.history.push("/")
+        });
+    }
+
   render() {
     return (
-      <ul className={css(styles.list)}>
+          <ul className={css(styles.list)}>
         {
           this.state.data.map((quote, key) =>
-            <li key={key} className={css(styles.listItem)}>{quote.name} : {quote.quote}</li>
+            <li key={key} className={css(styles.listItem)}><Link to={`/delete/${quote._id}`}>{quote.name} : {quote.quote}</Link></li>
           )
         }
       </ul>

@@ -5,6 +5,9 @@ import { Route, Link } from 'react-router-dom';
 
 import Home from '../Home';
 import Quote from '../Quote';
+import Delete from '../Delete';
+import ShowQuote from '../ShowQuote';
+
 
 class Layout extends Component {
 
@@ -22,6 +25,8 @@ class Layout extends Component {
         <main>
           <Route path="/" exact component={Home} />
           <Route path="/quote" exact component={Quote} />
+          <Route path="/delete/:id" exact component={Delete} />
+          <Route path="/quote/:id" exact component={ShowQuote} />
         </main>
       </div>
     );

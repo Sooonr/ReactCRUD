@@ -35,6 +35,34 @@ app.listen(port, function() {
  console.log(`api running on port ${port}`);
 });
 
+
+router.delete('/:id',function(req, res) {
+     const reqId = req.originalUrl.split('/')[3];
+     const id = reqId.split('=')[1];
+     var ObjectId = require('mongodb').ObjectID;
+     
+     console.log(id);
+     Quote.deleteOne({ "_id" : ObjectId(id) }, function(err, quotes) {
+       if (err)
+         res.send(err);
+         //responds with a json object of our database quotes.
+         res.json(quotes)
+    });
+ });
+
+ router.route('/quote/:id')
+ //retrieve a quote from the database by id
+ .get(function(req, res) {
+     const id = req.originalUrl.split('/')[3];
+     //looks at our Quote Schema
+     Quote.findById(id, function(err, quotes) {
+       if (err)
+         res.send(err);
+         //responds with a json object of our database quotes.
+         res.json(quotes)
+    });
+ });
+
 router.route('/quotes')
  //retrieve all quotes from the database
  .get(function(req, res) {
@@ -58,3 +86,7 @@ quote.save(function(err) {
    res.json({ message: 'Quote successfully added!' });
    });
  });
+
+ 
+
+ 
