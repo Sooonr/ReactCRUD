@@ -35,26 +35,79 @@ app.listen(port, function() {
  console.log(`api running on port ${port}`);
 });
 
+router.route('/quote/update/:id')
+ //retrieve a quote from the database by id
+ .post(function(req, res) {
+     const id = req.originalUrl.split('/')[4];
+     //body parser lets us use the req.body
+     Quote.findById(id, function(err, quote) {
+       if (err)
+         res.send(err);
+         quote.name = req.body.name;
+         quote.quote = req.body.quote;
+         quote.save(function(err) {
+           if (err)
+             res.send(err);
+             res.json({ message: 'Quote successfully updated!' });
+        });
+     });
+ });
+
+router.delete('/:id',function(req, res) {
+     const reqId = req.originalUrl.split('/')[3];
+     const id = reqId.split('=')[1];
+     var ObjectId = require('mongodb').ObjectID;
+     
+     console.log(id);
+     Quote.deleteOne({ "_id" : ObjectId(id) }, function(err, quotes) {
+       if (err)
+         res.send(err);
+         //responds with a json object of our database quotes.
+         res.json(quotes)
+    });
+ });
+
+ router.route('/quote/:id')
+ //retrieve a quote from the database by id
+ .get(function(req, res) {
+     const id = req.originalUrl.split('/')[3];
+     //looks at our Quote Schema
+     Quote.findById(id, function(err, quotes) {
+       if (err)
+         res.send(err);
+         //responds with a json object of our database quotes.
+         res.json(quotes)
+    });
+ });
+
 router.route('/quotes')
  //retrieve all quotes from the database
  .get(function(req, res) {
- //looks at our Quote Schema
- Quote.find(function(err, quotes) {
- if (err)
-   res.send(err);
-   //responds with a json object of our database quotes.
-   res.json(quotes)
-   });
+     //looks at our Quote Schema
+     Quote.find(function(err, quotes) {
+     if (err)
+       res.send(err);
+       //responds with a json object of our database quotes.
+       res.json(quotes)
+    });
  })
  //post new quote to the database
  .post(function(req, res) {
- var quote = new Quote();
- //body parser lets us use the req.body
- quote.name = req.body.name;
- quote.quote = req.body.quote;
-quote.save(function(err) {
- if (err)
-   res.send(err);
-   res.json({ message: 'Quote successfully added!' });
-   });
+     var quote = new Quote();
+     //body parser lets us use the req.body
+     quote.name = req.body.name;
+     quote.quote = req.body.quote;
+     if (quote.name && quote.quote) {
+        quote.save(function(err) {
+           if (err)
+             res.send(err);
+             res.json({ message: 'Quote successfully added!' });
+        });
+     } else {
+       res.json({ error: true, message: 'Missing parameters' });
+     }
  });
+
+ 
+
+ 

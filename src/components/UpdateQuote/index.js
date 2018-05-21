@@ -1,19 +1,30 @@
 import React, { Component } from 'react';
 import { StyleSheet, css } from 'aphrodite';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 
-class Quote extends Component {
+class UpdateQuote extends Component {
 
-    state = {
-      quoteName: '',
-      quoteContent: '',
-      loading: true,
-      data: {},
-      redirect: false,
-     };
+  state = {
+    data: {},
+    loading: true,
+    redirect: false
+   };
 
-    updateContent = ({ target: {value, name} }) => {
+  componentDidMount = () => {
+    this.loadQuotesFromServer();
+  }
+
+   loadQuotesFromServer = () => {
+     const idQuote = this.props.location.pathname.split('/')[3]
+     axios.get('http://localhost:3001/api/quote/' + idQuote)
+     .then(res => {
+       this.setState({ data: res.data, loading: false });
+     })
+   }
+
+   updateContent = ({ target: {value, name} }) => {
        if (name === 'name') {
          this.setState({
            quoteName: value
@@ -25,10 +36,11 @@ class Quote extends Component {
        }
     }
 
-   addQuoteOnServer = (e) => {
+    updateQuoteOnServer = (e) => {
      e.preventDefault();
+     const idQuote = this.props.location.pathname.split('/')[3]
      const {quoteName, quoteContent} = this.state;
-     axios.post('http://localhost:3001/api/quotes', {
+     axios.post('http://localhost:3001/api/quote/update/' + idQuote, {
        name: quoteName,
        quote: quoteContent,
      })
@@ -49,17 +61,16 @@ class Quote extends Component {
 
   render() {
 
-    const { quoteName, quoteContent, data, redirect } = this.state;
+    const { data, redirect } = this.state;
 
-    // To a redirection to the new quote
     if (redirect) return <Redirect to='/'/>;
 
     return (
       <div className={css(styles.container)}>
-        <form className={css(styles.form)} onSubmit={this.addQuoteOnServer} >
-          <input className={css(styles.input)} value={quoteName} type="text" name="name" placeholder="Quote name" onChange={this.updateContent}></input>
-          <input className={css(styles.input)} value={quoteContent} type="text" name="quote" placeholder="Quote content" onChange={this.updateContent}></input>
-          <button className={css(styles.button)} type="submit">Send</button>
+        <form className={css(styles.form)} onSubmit={this.updateQuoteOnServer} >
+          <input className={css(styles.input)} placeholder={data.name} type="text" name="name" onChange={this.updateContent}></input>
+          <input className={css(styles.input)} placeholder={data.quote} type="text" name="quote" onChange={this.updateContent}></input>
+          <button className={css(styles.button)} type="submit">Valider</button>
           {data.message &&
             <div>{data.message}</div>
           }
@@ -91,5 +102,4 @@ const styles = StyleSheet.create({
       cursor: 'pointer'
     },
 });
-
-export default Quote;
+export default UpdateQuote;
