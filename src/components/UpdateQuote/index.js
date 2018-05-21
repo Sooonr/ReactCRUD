@@ -51,8 +51,6 @@ class UpdateQuote extends Component {
        } else {
          this.setState({
            data: res.data,
-           quoteName: '',
-           quoteContent: '',
            loading: false,
            redirect: true,
          });
