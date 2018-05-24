@@ -18,7 +18,6 @@ class ShowQuote extends Component {
      const idQuote = this.props.location.pathname.split('/')[2];
      axios.get('http://localhost:3001/api/quote/' + idQuote)
      .then(res => {
-       console.log(res.data);
        this.setState({ data: res.data, loading: false });
      })
    }
@@ -46,7 +45,7 @@ class ShowQuote extends Component {
       );
     } else {
       return (
-        <div className={css(styles.container)}>
+        <div className={css(styles.noQuote)}>
           <div>No quote found</div>
           <Link className={css(styles.link)} to='/'>Back to home</Link>
         </div>
@@ -75,6 +74,9 @@ const styles = StyleSheet.create({
       ':hover': {
         opacity: 1,
       }
+    },
+    noQuote: {
+      marginTop: 20,
     }
 });
 
