@@ -27,12 +27,12 @@ class Layout extends Component {
           <h1 className={css(styles.appTitle)}>Welcome to ReactCRUD</h1>
           <nav className={css(styles.nav)}>
             <Link className={css(styles.navLink)} to="/">Home</Link>
-            <Link className={css(styles.navLink)} to="/quote">Add a quote</Link>
+            <Link className={css(styles.navLink)} to="/new">Add a quote</Link>
           </nav>
         </header>
         <main>
           <Route path="/" exact component={Home} />
-          <Route path="/quote" exact component={Quote} />
+          <Route path="/new" exact component={Quote} />
           <Route path="/quote/:id" exact component={ShowQuote} />
           <Route path="/quote/update/:id" exact component={UpdateQuote} />
         </main>

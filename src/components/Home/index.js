@@ -5,46 +5,56 @@ import axios from 'axios';
 
 class Home extends Component {
 
-    state = {
-      data: [],
-      loading: true,
-     };
+  state = {
+    data: [],
+    loading: true,
+   };
 
-     loadQuotesFromServer = () => {
-       axios.get('http://localhost:3001/api/quotes')
-       .then(res => {
-         this.setState({ data: res.data, loading: false });
-       })
-     }
+   loadQuotesFromServer = () => {
+     axios.get('http://localhost:3001/api/quotes')
+     .then(res => {
+       this.setState({ data: res.data, loading: false });
+     })
+   }
 
-     componentDidMount() {
-       this.loadQuotesFromServer();
-     }
-
-     
-    
+   componentDidMount() {
+     this.loadQuotesFromServer();
+   }
 
   render() {
-    return (
-      <table className={css(styles.table)}>
-        <tbody>
-          <tr className={css(styles.row)}>
-            <th className={css(styles.cell)}>Author</th>
-            <th className={css(styles.cell)}>Quote</th>
-            <th className={css(styles.cell)}>Actions</th>
-          </tr>
-          {
-            this.state.data.map((quote, key) =>
-              <tr key={key} className={css(styles.row)}>
-                <td className={css(styles.cell)}>{quote.name}</td>
-                <td className={css(styles.cell, styles.quoteCell)}>{quote.quote}</td>
-                <td className={css(styles.cell)}><Link className={css(styles.quote)} to={`/quote/${quote._id}`}>edit</Link></td>
-              </tr>
-            )
-          }
-        </tbody>
-      </table>
-    );
+
+    const { data } = this.state;
+
+    if (data.length > 0) {
+      return (
+        <table className={css(styles.table)}>
+          <tbody>
+            <tr className={css(styles.row)}>
+              <th className={css(styles.cell)}>Author</th>
+              <th className={css(styles.cell)}>Quote</th>
+              <th className={css(styles.cell)}>Actions</th>
+            </tr>
+            {
+              this.state.data.map((quote, key) =>
+                <tr key={key} className={css(styles.row)}>
+                  <td className={css(styles.cell)}>{quote.name}</td>
+                  <td className={css(styles.cell)}>{quote.quote}</td>
+                  <td className={css(styles.cell)}><Link className={css(styles.link)} to={`/quote/${quote._id}`}>Show</Link></td>
+                </tr>
+              )
+            }
+          </tbody>
+        </table>
+      );
+    } else {
+      return (
+        <div className={css(styles.noQuote)}>
+          There is no quotes yet :(<br/>
+          <Link className={css(styles.link)} to='/new'>Click here</Link> to add your first quote !
+        </div>
+      );
+    }
+
   }
 }
 
@@ -65,16 +75,16 @@ const styles = StyleSheet.create({
       border: '1px solid #000',
       padding: 10,
     },
-    quoteCell: {
-      color: '#000',
-    },
-    quote: {
+    link: {
       color: '#000',
       textDecoration: 'none',
       opacity: '0.7',
       ':hover': {
         opacity: '1'
       }
+    },
+    noQuote: {
+      marginTop: 20,
     }
 });
 

@@ -9,40 +9,41 @@ class UpdateQuote extends Component {
   state = {
     data: {},
     loading: true,
-    redirect: false
+    redirect: false,
+    idQuote: '',
    };
 
   componentDidMount = () => {
-    this.loadQuotesFromServer();
+    this.loadQuoteFromServer();
   }
 
-   loadQuotesFromServer = () => {
+   loadQuoteFromServer = () => {
      const idQuote = this.props.location.pathname.split('/')[3]
      axios.get('http://localhost:3001/api/quote/' + idQuote)
      .then(res => {
-       this.setState({ data: res.data, loading: false });
+       this.setState({ data: res.data, idQuote: res.data._id, loading: false });
      })
    }
 
    updateContent = ({ target: {value, name} }) => {
+   	   const { data } = this.state;
        if (name === 'name') {
          this.setState({
-           quoteName: value
+           data: { name: value, quote: data.quote }
          });
        } else if (name === 'quote') {
          this.setState({
-           quoteContent: value
+           data: { name: data.name, quote: value }
          });
        }
     }
 
     updateQuoteOnServer = (e) => {
      e.preventDefault();
-     const idQuote = this.props.location.pathname.split('/')[3]
-     const {quoteName, quoteContent} = this.state;
+     const {data, idQuote} = this.state;
      axios.post('http://localhost:3001/api/quote/update/' + idQuote, {
-       name: quoteName,
-       quote: quoteContent,
+       name: data.name,
+       quote: data.quote,
      })
      .then(res => {
        if (res.data.error) {
@@ -50,8 +51,6 @@ class UpdateQuote extends Component {
        } else {
          this.setState({
            data: res.data,
-           quoteName: '',
-           quoteContent: '',
            loading: false,
            redirect: true,
          });
@@ -61,22 +60,31 @@ class UpdateQuote extends Component {
 
   render() {
 
-    const { data, redirect } = this.state;
+    const { data, redirect, idQuote } = this.state;
 
-    if (redirect) return <Redirect to='/'/>;
+    if (redirect) return <Redirect to={`/quote/${idQuote}`} />;
 
-    return (
-      <div className={css(styles.container)}>
-        <form className={css(styles.form)} onSubmit={this.updateQuoteOnServer} >
-          <input className={css(styles.input)} placeholder={data.name} type="text" name="name" onChange={this.updateContent}></input>
-          <input className={css(styles.input)} placeholder={data.quote} type="text" name="quote" onChange={this.updateContent}></input>
-          <button className={css(styles.button)} type="submit">Valider</button>
-          {data.message &&
-            <div>{data.message}</div>
-          }
-        </form>
-      </div>
-    );
+    if (idQuote) {
+      return (
+        <div className={css(styles.container)}>
+          <form className={css(styles.form)} onSubmit={this.updateQuoteOnServer} >
+            <input className={css(styles.input)} value={data.name} type="text" name="name" onChange={this.updateContent}></input>
+            <input className={css(styles.input)} value={data.quote} type="text" name="quote" onChange={this.updateContent}></input>
+            <button className={css(styles.button)} type="submit">Send</button>
+            {data.message &&
+              <div>{data.message}</div>
+            }
+          </form>
+        </div>
+      );
+    } else {
+      return (
+        <div className={css(styles.noQuote)}>
+          <div>No quote found</div>
+          <Link className={css(styles.link)} to='/'>Back to home</Link>
+        </div>
+      )
+    }
   }
 }
 
@@ -101,5 +109,16 @@ const styles = StyleSheet.create({
       width: 150,
       cursor: 'pointer'
     },
+    link: {
+      color: '#000',
+      textDecoration: 'none',
+      opacity: '0.7',
+      ':hover': {
+        opacity: 1,
+      }
+    },
+    noQuote: {
+      marginTop: 20,
+    }
 });
 export default UpdateQuote;
