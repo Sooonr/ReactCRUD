@@ -15,9 +15,10 @@ class ShowQuote extends Component {
   }
 
    loadQuotesFromServer = () => {
-     const idQuote = this.props.location.pathname.split('/')[2]
+     const idQuote = this.props.location.pathname.split('/')[2];
      axios.get('http://localhost:3001/api/quote/' + idQuote)
      .then(res => {
+       console.log(res.data);
        this.setState({ data: res.data, loading: false });
      })
    }
@@ -35,13 +36,22 @@ class ShowQuote extends Component {
 
     const { data } = this.state;
 
-    return (
-      <div className={css(styles.container)}>
-        <div>{data.name} : {data.quote}</div>
-        <button className={css(styles.button)} onClick={this.delete.bind(this, data._id)}>Delete</button>
-        <Link className={css(styles.link)} to={`/quote/update/${data._id}`}>Edit</Link>
-      </div>
-    );
+    if (data._id) {
+      return (
+        <div className={css(styles.container)}>
+          <div>{data.name} : {data.quote}</div>
+          <button className={css(styles.button)} onClick={this.delete.bind(this, data._id)}>Delete</button>
+          <Link className={css(styles.link)} to={`/quote/update/${data._id}`}>Edit</Link>
+        </div>
+      );
+    } else {
+      return (
+        <div className={css(styles.container)}>
+          <div>No quote found</div>
+          <Link className={css(styles.link)} to='/'>Back to home</Link>
+        </div>
+      )
+    }
   }
 }
 
