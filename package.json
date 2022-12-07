@@ -9,7 +9,7 @@
     "aphrodite": "^1.2.5",
     "axios": "^0.17.1",
     "body-parser": "^1.18.2",
-    "express": "^4.16.2",
+    "express": "^4.17.3",
     "foreman": "^2.0.0",
     "marked": "^0.3.12",
     "mongoose": "^5.0.4",
